@@ -12,7 +12,8 @@
         android:id="@+id/frgMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.dariushm2.stockify.view.booksList.BooksListFragment"
+        android:tag="WatchListFragment"
+        android:name="com.dariushm2.stockify.view.watchList.WatchListFragment"
         >
 
     </fragment>

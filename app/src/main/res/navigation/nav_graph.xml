@@ -9,10 +9,10 @@
         android:id="@+id/mainActivity"
         android:name="com.dariushm2.stockify.view.MainActivity"
         android:label="activity_main"
-        tools:layout="@layout/activity_main" >
+        tools:layout="@layout/activity_main">
         <action
             android:id="@+id/actionMainTOAddSymbol"
-            app:destination="@id/addSymbolActivity"/>
+            app:destination="@id/addSymbolActivity" />
     </activity>
 
     <activity
@@ -21,8 +21,19 @@
         android:label="activity_add_symbol"
         tools:layout="@layout/fragment_add_symbol" />
     <fragment
-        android:id="@+id/booksListFragment"
-        android:name="com.dariushm2.stockify.view.booksList.BooksListFragment"
-        android:label="fragment_books_list"
-        tools:layout="@layout/fragment_books_list" />
+        android:id="@+id/watchListFragment"
+        android:name="com.dariushm2.stockify.view.watchList.WatchListFragment"
+        android:label="fragment_watch_list"
+        tools:layout="@layout/fragment_watch_list">
+        <action
+            android:id="@+id/actionWatchListToAddSymbol"
+            app:destination="@id/addSymbolFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addSymbolFragment"
+        android:name="com.dariushm2.stockify.view.addSymbol.AddSymbolFragment"
+        android:label="fragment_add_symbol"
+        tools:layout="@layout/fragment_add_symbol" />
+
 </navigation>

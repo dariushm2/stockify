@@ -8,13 +8,17 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.dariushm2.stockify.R
-import com.dariushm2.stockify.view.addSymbol.AddSymbolActivity
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 
-class MainActivity : AppCompatActivity(), com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
         /*,  BooksListFragment.OnBooksListListener */ {
 
 
@@ -23,6 +27,12 @@ class MainActivity : AppCompatActivity(), com.google.android.material.navigation
 //    }
 
     val ADD_STOCK = 10
+    var activeFragment: ActiveFragment = ActiveFragment.WatchListFragment
+
+    enum class ActiveFragment{
+        AddSymbolFragment,
+        WatchListFragment
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,25 +40,10 @@ class MainActivity : AppCompatActivity(), com.google.android.material.navigation
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         Log.e("Activity", "onCreate()")
-//        supportFragmentManager.popBackStackImmediate()
-//        var frag = supportFragmentManager.findFragmentByTag("BooksListFragment")
-//        if (frag == null) {
-//            frag = BooksListFragment()
-//            val fragmentTransaction = supportFragmentManager.beginTransaction()
-//            fragmentTransaction.add(R.id.frgMain, frag, "BooksListFragment").commit()
-//            Log.e("Fragment", "null")
-//        }
-//        else {
-//            Log.e("Fragment", "Already there")
-//        }
 
 
-
-
-
-
-
-        fabAddBook.setOnClickListener { v->
+        //val navHostFragment = supportFragmentManager.findFragmentById(R.id.watchListFragment) as NavHostFragment
+        fabAddBook.setOnClickListener { v ->
 
 //            val ft = supportFragmentManager.beginTransaction()
 //            ft.replace(R.id.frgMain, AddSymbolFragment(), "AddSymbolFragment")
@@ -56,16 +51,22 @@ class MainActivity : AppCompatActivity(), com.google.android.material.navigation
 //                    .commit()
 //
 //            fabAddBook.visibility = View.GONE
-            val intent = Intent(this, AddSymbolActivity::class.java)
-            startActivityForResult(intent, ADD_STOCK)
+//            val intent = Intent(this, AddSymbolActivity::class.java)
+//            startActivityForResult(intent, ADD_STOCK)
 
 //            val navController = Navigation.findNavController(this, R.id.fabAddBook)
 //            navController.navigate(R.id.addSymbolActivity)
 
             //Navigation.findNavController(v).navigate(R.id.addSymbolActivity)
-            //Navigation.createNavigateOnClickListener(R.id.actionMainTOAddSymbol, null)
-
+            //Navigation.findNavController(v).navigate(R.id.addSymbolActivity)
+            val navController = findNavController(supportFragmentManager.findFragmentByTag(ActiveFragment.WatchListFragment.name)!!)
+            Navigation.setViewNavController(v, navController)
+            //Navigation.createNavigateOnClickListener(R.id.actionWatchListToAddSymbol, null)
         }
+
+
+
+
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)

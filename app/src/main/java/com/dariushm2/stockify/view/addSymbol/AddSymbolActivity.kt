@@ -36,7 +36,7 @@ class AddSymbolActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.homeAsUp -> finish()
+            android.R.id.home -> finish()
 
         }
         return super.onOptionsItemSelected(item)
