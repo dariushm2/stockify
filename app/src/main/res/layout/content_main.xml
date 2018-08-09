@@ -8,14 +8,20 @@
     tools:context=".view.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <fragment
-        android:id="@+id/frgMain"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:tag="WatchListFragment"
-        android:name="com.dariushm2.stockify.view.watchList.WatchListFragment"
-        >
+        android:layout_height="match_parent">
 
-    </fragment>
+        <fragment
+            android:id="@+id/navHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:navGraph="@navigation/nav_graph"
+            app:defaultNavHost="true">
+
+        </fragment>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

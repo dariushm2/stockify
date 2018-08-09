@@ -17,6 +17,10 @@
     <string name="addBook">Add Book</string>
 
 
+
+    <string name="argSymbol">Symbol</string>
+
+
     <string name="registerBookSuccess">Book was successfully added.</string>
     <string name="failure">Something went wrong.</string>
 

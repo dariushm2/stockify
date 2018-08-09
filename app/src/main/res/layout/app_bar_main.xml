@@ -22,9 +22,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:iconifiedByDefault="false"
+                android:inputType="textCapCharacters"
                 android:visibility="gone"
-                android:queryHint="@string/stockSearchHint" />
+                app:searchIcon="@null"
+                app:iconifiedByDefault="false"
+                app:queryHint="@string/stockSearchHint" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -32,7 +34,7 @@
     <include layout="@layout/content_main" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddBook"
+        android:id="@+id/fabAddSymbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

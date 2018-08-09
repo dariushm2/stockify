@@ -1,9 +1,13 @@
 package com.dariushm2.stockify.view.addSymbol
 
+import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import com.dariushm2.stockify.R
 import com.dariushm2.stockify.databinding.SymbolItemBinding
 
 import com.dariushm2.stockify.model.Symbol
@@ -18,8 +22,10 @@ class SymbolsListAdapter(
     : RecyclerView.Adapter<SymbolsListAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
-
+    private var symbolsCached: MutableList<Symbol> = mutableListOf()
+    private var symbolsFiltered: MutableList<Symbol> = mutableListOf()
     init {
+
         mOnClickListener = View.OnClickListener { v ->
             val symbol = v.tag as Symbol
 
@@ -38,6 +44,12 @@ class SymbolsListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val symbol:Symbol = symbols[position]
         holder.bind(symbol)
+        val bundle = Bundle()
+        val tag = holder.itemView.context.getString(R.string.argSymbol)
+        bundle.putString(tag, symbols[position].symbol)
+        holder.itemView.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.actionAddSymbolToWatchList, bundle))
+
+        //Log.e("OnClick", "Invoked")
 
     }
 
@@ -45,6 +57,7 @@ class SymbolsListAdapter(
 
     fun addItems(symbols: List<Symbol>) {
         this.symbols = symbols
+        this.symbolsCached.addAll(symbols)
         notifyDataSetChanged()
     }
 
@@ -61,5 +74,22 @@ class SymbolsListAdapter(
             return symbolsDataBinding
         }
 
+    }
+
+
+    fun filter(text: String) {
+        Log.e("filter", "invoked")
+        if (text.isEmpty()) {
+            symbols = symbolsCached
+        }
+        else {
+            symbolsFiltered = mutableListOf()
+            symbolsCached.forEach {
+                if (it.symbol.startsWith(text, true))
+                    symbolsFiltered.add(it)
+            }
+            symbols = symbolsFiltered
+        }
+        notifyDataSetChanged()
     }
 }

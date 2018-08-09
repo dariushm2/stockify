@@ -9,18 +9,18 @@ import com.dariushm2.stockify.R
 import com.dariushm2.stockify.model.Quote
 
 
-import com.dariushm2.stockify.view.watchList.WatchListFragment.OnListFragmentInteractionListener
+import com.dariushm2.stockify.view.watchList.WatchListFragment.OnWatchListInteractionListener
 
 import kotlinx.android.synthetic.main.quote_item.view.*
 
 /**
  * [RecyclerView.Adapter] that can display a [Quote] and makes a call to the
- * specified [OnListFragmentInteractionListener].
+ * specified [OnWatchListInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
 class WatchListAdapter(
         private val mValues: List<Quote>,
-        private val mListener: OnListFragmentInteractionListener?)
+        private val mListenerWatch: OnWatchListInteractionListener?)
     : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
@@ -30,7 +30,7 @@ class WatchListAdapter(
             val item = v.tag as Quote
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            mListener?.onListFragmentInteraction(item)
+            mListenerWatch?.onWatchListInteraction(item)
         }
     }
 

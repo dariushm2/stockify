@@ -3,27 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainActivity">
+    app:startDestination="@id/watchListFragment">
 
     <activity
         android:id="@+id/mainActivity"
         android:name="com.dariushm2.stockify.view.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main">
-        <action
-            android:id="@+id/actionMainTOAddSymbol"
-            app:destination="@id/addSymbolActivity" />
+
     </activity>
 
     <activity
         android:id="@+id/addSymbolActivity"
         android:name="com.dariushm2.stockify.view.addSymbol.AddSymbolActivity"
         android:label="activity_add_symbol"
-        tools:layout="@layout/fragment_add_symbol" />
+        tools:layout="@layout/activity_add_symbol" />
     <fragment
         android:id="@+id/watchListFragment"
         android:name="com.dariushm2.stockify.view.watchList.WatchListFragment"
         android:label="fragment_watch_list"
+        android:tag="WatchListFragment"
         tools:layout="@layout/fragment_watch_list">
         <action
             android:id="@+id/actionWatchListToAddSymbol"
@@ -34,6 +33,15 @@
         android:id="@+id/addSymbolFragment"
         android:name="com.dariushm2.stockify.view.addSymbol.AddSymbolFragment"
         android:label="fragment_add_symbol"
-        tools:layout="@layout/fragment_add_symbol" />
-
+        android:tag="AddSymbolFragment"
+        tools:layout="@layout/fragment_add_symbol" >
+        <action
+            android:id="@+id/actionAddSymbolToWatchList"
+            app:destination="@id/watchListFragment"
+            />
+        <argument
+            android:name="@string/argSymbol"
+            app:argType="string"
+            />
+    </fragment>
 </navigation>

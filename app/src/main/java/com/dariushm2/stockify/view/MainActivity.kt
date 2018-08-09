@@ -1,27 +1,32 @@
 package com.dariushm2.stockify.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.view.GravityCompat
-import androidx.appcompat.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.findNavController
 import com.dariushm2.stockify.R
-import com.google.android.material.navigation.NavigationView
+import com.dariushm2.stockify.model.Quote
+import com.dariushm2.stockify.view.watchList.WatchListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
-        /*,  BooksListFragment.OnBooksListListener */ {
+class MainActivity : AppCompatActivity(),
+        WatchListFragment.OnWatchListInteractionListener
+//NavigationView.OnNavigationItemSelectedListener
+{
 
+    var isAddSymbolActive = false
 
+    override fun onWatchListInteraction(item: Quote?) {
+
+    }
 //    override fun onBooksListInteraction(book: Book?) {
 //        fabAddBook.visibility = View.VISIBLE
 //    }
@@ -29,7 +34,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     val ADD_STOCK = 10
     var activeFragment: ActiveFragment = ActiveFragment.WatchListFragment
 
-    enum class ActiveFragment{
+    enum class ActiveFragment {
         AddSymbolFragment,
         WatchListFragment
     }
@@ -42,10 +47,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Log.e("Activity", "onCreate()")
 
 
-        //val navHostFragment = supportFragmentManager.findFragmentById(R.id.watchListFragment) as NavHostFragment
-        fabAddBook.setOnClickListener { v ->
+        //val fabAddSymbol = findViewById<FloatingActionButton>(R.id.fabAddSymbol)
+        val navController = findNavController(R.id.navHostFragment)
+        Navigation.setViewNavController(fabAddSymbol, navController)
+        fabAddSymbol.setOnClickListener { v ->
 
-//            val ft = supportFragmentManager.beginTransaction()
+            //            val ft = supportFragmentManager.beginTransaction()
 //            ft.replace(R.id.frgMain, AddSymbolFragment(), "AddSymbolFragment")
 //                    .addToBackStack("AddSymbolFragment")
 //                    .commit()
@@ -54,26 +61,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //            val intent = Intent(this, AddSymbolActivity::class.java)
 //            startActivityForResult(intent, ADD_STOCK)
 
-//            val navController = Navigation.findNavController(this, R.id.fabAddBook)
-//            navController.navigate(R.id.addSymbolActivity)
-
-            //Navigation.findNavController(v).navigate(R.id.addSymbolActivity)
-            //Navigation.findNavController(v).navigate(R.id.addSymbolActivity)
-            val navController = findNavController(supportFragmentManager.findFragmentByTag(ActiveFragment.WatchListFragment.name)!!)
-            Navigation.setViewNavController(v, navController)
-            //Navigation.createNavigateOnClickListener(R.id.actionWatchListToAddSymbol, null)
+            isAddSymbolActive = true
+            //searchView.visibility = View.VISIBLE
+            navController.navigate(R.id.addSymbolFragment)
         }
 
-
-
-
-
         val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        nav_view.setNavigationItemSelectedListener(this)
+        //navView.setNavigationItemSelectedListener(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -83,7 +81,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
     }
- 
 
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -93,18 +90,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+
+
     override fun onDestroy() {
         super.onDestroy()
         Log.e("Activity", "onDestroy()")
         //supportFragmentManager.fragments.forEach { it.onDestroy() }
     }
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawerLayout.closeDrawer(GravityCompat.START)
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -112,40 +111,61 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+
+        //findViewById<SearchView>(R.id.searchView).visibility = View.VISIBLE
+
+        //menu?.findItem(R.id.searchView)?.isVisible = isAddSymbolActive
+        Log.e("Prepare Options Menu", "Invoked")
+        return super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
 
-            }
-            R.id.nav_slideshow -> {
 
-            }
-            R.id.nav_manage -> {
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        when (item.itemId) {
+//            R.id.action_settings -> return true
+//            else -> return super.onOptionsItemSelected(item)
+//        }
+//    }
 
-            }
-            R.id.nav_share -> {
+//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+//        // Handle navigation view item clicks here.
+//        when (item.itemId) {
+//            R.id.nav_camera -> {
+//                // Handle the camera action
+//            }
+//            R.id.nav_gallery -> {
+//
+//            }
+//            R.id.nav_slideshow -> {
+//
+//            }
+//            R.id.nav_manage -> {
+//
+//            }
+//            R.id.nav_share -> {
+//
+//            }
+//            R.id.nav_send -> {
+//
+//            }
+//
+//        }
+//
+//        drawerLayout.closeDrawer(GravityCompat.START)
+//        return true
+//    }
 
-            }
-            R.id.nav_send -> {
-
-            }
-        }
-
-        drawer_layout.closeDrawer(GravityCompat.START)
+    override fun onSupportNavigateUp(): Boolean {
+        Log.e("onSupportNavigateUp", "Invoked")
+        isAddSymbolActive = false
+        //return Navigation.findNavController(this, R.id.navHostFragment).navigateUp()
         return true
     }
+
+
 }
