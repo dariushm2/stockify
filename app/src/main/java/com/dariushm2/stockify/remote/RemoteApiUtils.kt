@@ -5,4 +5,7 @@ object RemoteApiUtils {
 
     val symbolsService: SymbolsService
         get() = RetrofitClient.getClient().create(SymbolsService::class.java)
+
+    val quoteService: QuoteService
+        get() = RetrofitClient.getClient().create(QuoteService::class.java)
 }

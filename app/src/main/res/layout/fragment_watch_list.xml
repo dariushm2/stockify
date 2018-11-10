@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
+        android:id="@+id/rcvWatchList"
         android:name="com.dariushm2.stockify.view.watchList.WatchListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

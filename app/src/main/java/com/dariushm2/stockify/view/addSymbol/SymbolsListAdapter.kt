@@ -11,6 +11,7 @@ import com.dariushm2.stockify.R
 import com.dariushm2.stockify.databinding.SymbolItemBinding
 
 import com.dariushm2.stockify.model.Symbol
+import com.dariushm2.stockify.view.MyApp
 
 /**
  * [RecyclerView.Adapter] that can display a [Symbol] and makes a call to the
@@ -44,6 +45,8 @@ class SymbolsListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val symbol:Symbol = symbols[position]
         holder.bind(symbol)
+
+
         val bundle = Bundle()
         val tag = holder.itemView.context.getString(R.string.argSymbol)
         bundle.putString(tag, symbols[position].symbol)

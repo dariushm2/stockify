@@ -9,10 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dariushm2.stockify.R
 import com.dariushm2.stockify.model.Quote
+import com.dariushm2.stockify.model.Watch
+import com.dariushm2.stockify.view.MyApp
+import com.dariushm2.stockify.view.addSymbol.SymbolsListAdapter
+import com.dariushm2.stockify.viewModel.SymbolsViewModel
+import com.dariushm2.stockify.viewModel.WatchListViewModel
 
 /**
  * A fragment representing a list of Items.
@@ -23,6 +33,8 @@ class WatchListFragment : Fragment() {
 
     // TODO: Customize parameters
     private var columnCount = 1
+    private var watchList: List<Watch> = listOf()
+    private lateinit var adapter: WatchListAdapter
 
     private var listenerWatch: OnWatchListInteractionListener? = null
 
@@ -41,16 +53,28 @@ class WatchListFragment : Fragment() {
         activity?.findViewById<SearchView>(R.id.searchView)?.visibility = View.GONE
         Log.e("Fragment", "Watch List")
 
-        // Set the adapter
-//        if (view is RecyclerView) {
-//            with(view) {
-//                layoutManager = when {
-//                    columnCount <= 1 -> LinearLayoutManager(context)
-//                    else -> GridLayoutManager(context, columnCount)
-//                }
-//                //adapter = WatchListAdapter(DummyContent.ITEMS, listenerWatch)
-//            }
-//        }
+        val symbol = arguments?.getString(context?.getString(R.string.argSymbol))
+        if (symbol != null) {
+            val watch = Watch(symbol)
+            MyApp.DB_STOCK_INSTANCE.getStockDao().insertWatch(watch)
+        }
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.rcvWatchList)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        val watchListViewModel = ViewModelProviders.of(this).get(WatchListViewModel::class.java)
+
+
+        adapter = WatchListAdapter(listOf())
+        recyclerView.adapter = adapter
+
+        watchListViewModel.watchListLiveData.observe(this, Observer {
+            //adapter.addItems(it!!)
+        })
+
+
+        watchList = MyApp.DB_STOCK_INSTANCE.getStockDao().getWatchList()
+        Log.e("WatchList", watchList.size.toString())
         return view
     }
 

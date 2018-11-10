@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.dariushm2.stockify.R
 import com.dariushm2.stockify.model.Quote
+import com.dariushm2.stockify.model.Symbol
 
 
 import com.dariushm2.stockify.view.watchList.WatchListFragment.OnWatchListInteractionListener
@@ -19,8 +20,9 @@ import kotlinx.android.synthetic.main.quote_item.view.*
  * TODO: Replace the implementation with code for your data type.
  */
 class WatchListAdapter(
-        private val mValues: List<Quote>,
-        private val mListenerWatch: OnWatchListInteractionListener?)
+        private var quotes: List<Quote>
+        //, private val mListenerWatch: OnWatchListInteractionListener?
+)
     : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
@@ -30,7 +32,7 @@ class WatchListAdapter(
             val item = v.tag as Quote
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
-            mListenerWatch?.onWatchListInteraction(item)
+            //mListenerWatch?.onWatchListInteraction(item)
         }
     }
 
@@ -41,7 +43,7 @@ class WatchListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues[position]
+        val item = quotes[position]
         holder.mIdView.text = item.symbol
         holder.mContentView.text = item.companyName
 
@@ -51,7 +53,13 @@ class WatchListAdapter(
         }
     }
 
-    override fun getItemCount(): Int = mValues.size
+    override fun getItemCount(): Int = quotes.size
+
+    fun addItems(quotes: List<Quote>) {
+        this.quotes = quotes
+        //this.symbolsCached.addAll(symbols)
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mIdView: TextView = mView.txtSymbol
