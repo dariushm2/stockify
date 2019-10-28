@@ -1,18 +1,13 @@
 package com.dariushm2.stockify.view.watchList
 
-import androidx.recyclerview.widget.RecyclerView
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.dariushm2.stockify.R
+import androidx.recyclerview.widget.RecyclerView
+import com.dariushm2.stockify.databinding.QuoteItemBinding
 import com.dariushm2.stockify.model.Quote
-import com.dariushm2.stockify.model.Symbol
-
-
 import com.dariushm2.stockify.view.watchList.WatchListFragment.OnWatchListInteractionListener
-
-import kotlinx.android.synthetic.main.quote_item.view.*
 
 /**
  * [RecyclerView.Adapter] that can display a [Quote] and makes a call to the
@@ -22,8 +17,7 @@ import kotlinx.android.synthetic.main.quote_item.view.*
 class WatchListAdapter(
         private var quotes: List<Quote>
         //, private val mListenerWatch: OnWatchListInteractionListener?
-)
-    : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
 
@@ -37,18 +31,18 @@ class WatchListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.quote_item, parent, false)
-        return ViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val quoteItemBinding: QuoteItemBinding = QuoteItemBinding.inflate(layoutInflater, parent, false)
+
+        return ViewHolder(quoteItemBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = quotes[position]
-        holder.mIdView.text = item.symbol
-        holder.mContentView.text = item.companyName
+        val quote = quotes[position]
+        holder.bind(quote)
 
-        with(holder.mView) {
-            tag = item
+        with(holder.itemView) {
+            tag = quote
             setOnClickListener(mOnClickListener)
         }
     }
@@ -61,12 +55,14 @@ class WatchListAdapter(
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.txtSymbol
-        val mContentView: TextView = mView.txtCompanyName
+    inner class ViewHolder(private val quotesDataBinding: QuoteItemBinding) : RecyclerView.ViewHolder(quotesDataBinding.root) {
+        fun bind(quote: Quote) {
+            quotesDataBinding.quote = quote
+            quotesDataBinding.executePendingBindings()
+        }
 
-        override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
+        fun getSymbolsDataBinding(): QuoteItemBinding {
+            return quotesDataBinding
         }
     }
 }

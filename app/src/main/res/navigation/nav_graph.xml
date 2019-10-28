@@ -37,11 +37,7 @@
         tools:layout="@layout/fragment_add_symbol" >
         <action
             android:id="@+id/actionAddSymbolToWatchList"
-            app:destination="@id/watchListFragment"
-            />
-        <argument
-            android:name="@string/argSymbol"
-            app:argType="string"
-            />
+            app:destination="@id/watchListFragment" />
+
     </fragment>
 </navigation>

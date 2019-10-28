@@ -2,6 +2,7 @@ package com.dariushm2.stockify.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.dariushm2.stockify.model.Quote
 import com.dariushm2.stockify.model.Symbol
 import com.dariushm2.stockify.model.Watch
 
@@ -20,7 +21,7 @@ interface StockDao {
     fun getSymbols(): LiveData<List<Symbol>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertSymbol(symbol: Symbol): Long
+    suspend fun insertSymbol(symbol: Symbol): Long
 
     @Update
     fun updateSymbol(symbol: Symbol)
@@ -33,19 +34,39 @@ interface StockDao {
 
 
     /***
-     * CUID functions for Symbol entity
+     * CUID functions for Watch entity
      */
 
     @Query("SELECT * FROM Watch;")
-    fun getWatchList(): List<Watch>
+    suspend fun getWatches(): List<Watch>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertWatch(watch: Watch): Long
+    suspend fun insertWatch(watch: Watch): Long
 
     @Delete
     fun deleteWatch(watch: Watch)
 
     @Query("DELETE FROM Watch WHERE 1")
     fun deleteWatchList()
+
+    @Query("SELECT COUNT(symbol) FROM Watch")
+    fun getRowCount(): Int
+
+
+    /***
+     * CUID functions for Quote entity
+     */
+
+    @Query("SELECT * FROM Quote;")
+    fun getQuoteList(): LiveData<List<Quote>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertQuote(quote: Quote): Long
+
+    @Delete
+    fun deleteQuote(quote: Quote)
+
+    @Query("DELETE FROM Quote WHERE 1")
+    fun deleteQuoteList()
 
 }

@@ -1,11 +1,8 @@
 package com.dariushm2.stockify.view.addSymbol
 
 
-
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,18 +10,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-
 import com.dariushm2.stockify.R
 import com.dariushm2.stockify.viewModel.SymbolsViewModel
-import com.dariushm2.stockify.R.id.searchView
-import androidx.databinding.adapters.SearchViewBindingAdapter.setOnQueryTextListener
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 
 
 class AddSymbolFragment : Fragment() {
@@ -63,23 +54,25 @@ class AddSymbolFragment : Fragment() {
         val recyclerView: RecyclerView = mView.findViewById(R.id.rcvSymbols)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        val symbolViewModel = ViewModelProviders.of(this).get(SymbolsViewModel::class.java)
+        val symbolViewModel = ViewModelProvider(this).get(SymbolsViewModel::class.java)
+
+
 
         adapter = SymbolsListAdapter(listOf())
         recyclerView.adapter = adapter
         //Log.e("Fragment", "setAdapter")
 
-        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context!! , R.color.colorAccent))
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorAccent))
         swipeRefreshLayout.isEnabled = true
         swipeRefreshLayout.isRefreshing = true
 
 
         symbolViewModel.symbolsLiveData.observe(this, Observer {
+            //Log.e("Symbols: ", "Observed")
             swipeRefreshLayout.isRefreshing = false
             swipeRefreshLayout.isEnabled = false
             adapter.addItems(it!!)
         })
-
 
 
 //        mView.btnAddBook.setOnClickListener {

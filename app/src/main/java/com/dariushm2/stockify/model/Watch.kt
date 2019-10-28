@@ -4,5 +4,5 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Watch(@PrimaryKey
+data class Watch(@PrimaryKey(autoGenerate = false)
                      val symbol: String)

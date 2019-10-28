@@ -2,6 +2,7 @@ package com.dariushm2.stockify.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
@@ -52,15 +53,6 @@ class MainActivity : AppCompatActivity(),
         Navigation.setViewNavController(fabAddSymbol, navController)
         fabAddSymbol.setOnClickListener { v ->
 
-            //            val ft = supportFragmentManager.beginTransaction()
-//            ft.replace(R.id.frgMain, AddSymbolFragment(), "AddSymbolFragment")
-//                    .addToBackStack("AddSymbolFragment")
-//                    .commit()
-//
-//            fabAddBook.visibility = View.GONE
-//            val intent = Intent(this, AddSymbolActivity::class.java)
-//            startActivityForResult(intent, ADD_STOCK)
-
             isAddSymbolActive = true
             //searchView.visibility = View.VISIBLE
             navController.navigate(R.id.addSymbolFragment)
@@ -83,12 +75,12 @@ class MainActivity : AppCompatActivity(),
     }
 
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
         outState?.putBoolean("Frag", true)
-
-
     }
+
+
 
 
 
