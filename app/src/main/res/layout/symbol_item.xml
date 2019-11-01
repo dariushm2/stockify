@@ -22,7 +22,7 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/txtSymbol"
+                android:id="@+id/txtPrimaryExchange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"

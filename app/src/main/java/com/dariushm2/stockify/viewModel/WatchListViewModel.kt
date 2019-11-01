@@ -1,8 +1,6 @@
 package com.dariushm2.stockify.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import com.dariushm2.stockify.model.Quote
 import com.dariushm2.stockify.model.Watch
 import com.dariushm2.stockify.remote.StockServices
@@ -24,9 +22,6 @@ class WatchListViewModel : ViewModel() {
         emitSource(getCachedQuotes())
 
         val watchList = MyApp.DB_STOCK_INSTANCE.getStockDao().getWatches()
-
-        println("Stockify: watch list is ${watchList.size}")
-
         getQuotes(watchList)
 
     }
@@ -34,7 +29,7 @@ class WatchListViewModel : ViewModel() {
     private fun getCachedQuotes(): LiveData<List<Quote>> {
         //delay(5000)
         val quotes = MyApp.DB_STOCK_INSTANCE.getStockDao().getQuoteList()
-        println("$MY_APP: Fetched quote from DB ${quotes.value?.size}")
+        //println("$MY_APP: Fetched quote from DB ${quotes.value?.size}")
         return quotes
     }
 
@@ -42,7 +37,7 @@ class WatchListViewModel : ViewModel() {
 
         MyApp.DB_STOCK_INSTANCE.getStockDao().insertQuote(quote)
 
-        println("$MY_APP: Cached quote in DB")
+        //println("$MY_APP: Cached quote in DB")
     }
 
     private suspend fun getQuotes(watchList: List<Watch>) {
@@ -51,7 +46,7 @@ class WatchListViewModel : ViewModel() {
             watchList.forEach {
                 getQuote(it)
             }
-            delay(500000)
+            delay(300000)
         }
     }
 

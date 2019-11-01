@@ -27,5 +27,7 @@
 
     <string name="stockSearchHint">GOOG</string>
 
+    <string name="upPointingTriangle">\u25b2</string>
+
 
 </resources>

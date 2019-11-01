@@ -1,39 +1,25 @@
 package com.dariushm2.stockify.view.watchList
 
 
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.dariushm2.stockify.R
 import com.dariushm2.stockify.databinding.QuoteItemBinding
 import com.dariushm2.stockify.model.Quote
-import com.dariushm2.stockify.view.watchList.WatchListFragment.OnWatchListInteractionListener
+import com.dariushm2.stockify.model.Watch
+import com.dariushm2.stockify.view.MyApp
 
-/**
- * [RecyclerView.Adapter] that can display a [Quote] and makes a call to the
- * specified [OnWatchListInteractionListener].
- * TODO: Replace the implementation with code for your data type.
- */
-class WatchListAdapter(
-        private var quotes: List<Quote>
-        //, private val mListenerWatch: OnWatchListInteractionListener?
-) : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
+class WatchListAdapter(private var quotes: List<Quote>) : RecyclerView.Adapter<WatchListAdapter.ViewHolder>() {
 
-    private val mOnClickListener: View.OnClickListener
 
-    init {
-        mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as Quote
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            //mListenerWatch?.onWatchListInteraction(item)
-        }
-    }
-
+    lateinit var context: Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val quoteItemBinding: QuoteItemBinding = QuoteItemBinding.inflate(layoutInflater, parent, false)
-
+        context = parent.context
         return ViewHolder(quoteItemBinding)
     }
 
@@ -41,17 +27,30 @@ class WatchListAdapter(
         val quote = quotes[position]
         holder.bind(quote)
 
-        with(holder.itemView) {
-            tag = quote
-            setOnClickListener(mOnClickListener)
+        holder.itemView.setOnLongClickListener {
+            deleteWatch(position)
         }
     }
+
+    private fun deleteWatch(position: Int): Boolean {
+        val dialog = AlertDialog.Builder(context)
+                .setTitle(quotes[position].symbol)
+                .setMessage(R.string.app_name)
+                .setPositiveButton(R.string.title, { dialog, id ->
+                    val watch = Watch(quotes[position].symbol)
+                    MyApp.DB_STOCK_INSTANCE.getStockDao().deleteWatch(watch)
+
+                })
+                .create()
+        dialog.show()
+        return true
+    }
+
 
     override fun getItemCount(): Int = quotes.size
 
     fun addItems(quotes: List<Quote>) {
         this.quotes = quotes
-        //this.symbolsCached.addAll(symbols)
         notifyDataSetChanged()
     }
 

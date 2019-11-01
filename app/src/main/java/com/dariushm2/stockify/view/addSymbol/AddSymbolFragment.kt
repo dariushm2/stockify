@@ -74,18 +74,6 @@ class AddSymbolFragment : Fragment() {
             adapter.addItems(it!!)
         })
 
-
-//        mView.btnAddBook.setOnClickListener {
-//            val stockDao: StockDao = MyApp.DB_STOCK_INSTANCE.getStockDao()
-//            //val symbol = Symbol()
-//            val bookId = stockDao.insertSymbol(Symbol("","",true,"",""))
-//            if (bookId > 0)
-//                Toast.makeText(activity, R.string.registerBookSuccess, Toast.LENGTH_LONG).show()
-//            else
-//                Toast.makeText(activity, R.string.failure, Toast.LENGTH_LONG).show()
-//
-//        }
-
         return mView
 
     }

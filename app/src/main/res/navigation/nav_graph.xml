@@ -22,8 +22,7 @@
         android:id="@+id/watchListFragment"
         android:name="com.dariushm2.stockify.view.watchList.WatchListFragment"
         android:label="fragment_watch_list"
-        android:tag="WatchListFragment"
-        tools:layout="@layout/fragment_watch_list">
+        android:tag="WatchListFragment">
         <action
             android:id="@+id/actionWatchListToAddSymbol"
             app:destination="@id/addSymbolFragment" />

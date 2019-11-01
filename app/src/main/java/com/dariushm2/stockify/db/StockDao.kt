@@ -11,7 +11,7 @@ interface StockDao {
 
 
     /***
-     * CUID functions for Symbol entity
+     * CRUD functions for Symbol entity
      */
 
     @Query("SELECT * FROM Symbol WHERE symbol = :symbol;")
@@ -34,7 +34,7 @@ interface StockDao {
 
 
     /***
-     * CUID functions for Watch entity
+     * CRUD functions for Watch entity
      */
 
     @Query("SELECT * FROM Watch;")
@@ -54,7 +54,7 @@ interface StockDao {
 
 
     /***
-     * CUID functions for Quote entity
+     * CRUD functions for Quote entity
      */
 
     @Query("SELECT * FROM Quote;")
