@@ -38,13 +38,16 @@ interface StockDao {
      */
 
     @Query("SELECT * FROM Watch;")
-    suspend fun getWatches(): List<Watch>
+    fun getWatches(): LiveData<List<Watch>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertWatch(watch: Watch): Long
 
     @Delete
     fun deleteWatch(watch: Watch)
+
+//    @Query("DELETE FROM Watch WHERE symbol = :symbol;")
+//    fun deleteWatch(symbol: String): Int
 
     @Query("DELETE FROM Watch WHERE 1")
     fun deleteWatchList()
@@ -67,6 +70,6 @@ interface StockDao {
     fun deleteQuote(quote: Quote)
 
     @Query("DELETE FROM Quote WHERE 1")
-    fun deleteQuoteList()
+    fun deleteQuotes()
 
 }

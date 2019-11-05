@@ -13,11 +13,7 @@
 
     </activity>
 
-    <activity
-        android:id="@+id/addSymbolActivity"
-        android:name="com.dariushm2.stockify.view.addSymbol.AddSymbolActivity"
-        android:label="activity_add_symbol"
-        tools:layout="@layout/activity_add_symbol" />
+
     <fragment
         android:id="@+id/watchListFragment"
         android:name="com.dariushm2.stockify.view.watchList.WatchListFragment"
@@ -26,6 +22,11 @@
         <action
             android:id="@+id/actionWatchListToAddSymbol"
             app:destination="@id/addSymbolFragment" />
+
+        <action
+            android:id="@+id/actionToDisclaimerFragment"
+            app:destination="@id/disclaimerFragment" />
+
     </fragment>
 
     <fragment
@@ -37,6 +38,15 @@
         <action
             android:id="@+id/actionAddSymbolToWatchList"
             app:destination="@id/watchListFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/disclaimerFragment"
+        android:name="com.dariushm2.stockify.view.misc.Disclaimer"
+        android:label="fragment_add_symbol"
+        android:tag="AddSymbolFragment"
+        tools:layout="@layout/fragment_add_symbol" >
 
     </fragment>
 </navigation>

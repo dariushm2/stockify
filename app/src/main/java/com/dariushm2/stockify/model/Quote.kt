@@ -33,9 +33,12 @@ data class Quote(@PrimaryKey
     @ColumnInfo(name = "previousClose") var previousClose = _previousClose
         set(value) { field = String.format("%.02f", value).toFloat()}
     @ColumnInfo(name = "change") var change = _change
-        set(value) { field = String.format("%.02f", value).toFloat()}
+        set(value) { field = String.format("%.02f", value ).toFloat()}
     @ColumnInfo(name = "changePercent") var changePercent = _changePercent
         set(value) { field = String.format("%.02f", value * 100).toFloat()}
+
+    @Ignore
+    constructor(symbol: String): this(symbol, "", "", 0F, 0F, 0F, 0F, 0F,0F, 0F,0F)
 
     override fun toString(): String {
         return "Quote($symbol, $companyName, $primaryExchange, $open, $close, $high, $low, $latestPrice, $previousClose, $change, $changePercent)"

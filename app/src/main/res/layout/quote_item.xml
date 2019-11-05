@@ -22,6 +22,32 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/txtCompanyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:maxLines="1"
+                android:text="@{quote.companyName}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtSymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@{quote.symbol}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/txtCompanyName" />
+
+            <TextView
                 android:id="@+id/txtPrimaryExchange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -30,25 +56,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@{quote.primaryExchange}"
-                android:maxLength="10"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtSymbol" />
-
-            <TextView
-                android:id="@+id/txtSymbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@{quote.symbol}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.137" />
+                app:layout_constraintTop_toBottomOf="@id/txtSymbol" />
 
             <TextView
                 android:id="@+id/txtLatestPrice"
@@ -56,9 +67,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="120dp"
                 android:layout_marginLeft="120dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="32dp"
                 android:text="@{String.valueOf(quote.getLatestPrice())}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -68,8 +79,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
-                android:layout_marginBottom="8dp"
-                android:text="@{String.valueOf(quote.getChangePercent) + '%'}"
+                android:layout_marginBottom="32dp"
+                android:text="@{quote.changePercent > 0 ? String.valueOf(quote.getChangePercent) + '%' : String.valueOf(quote.getChangePercent * -1) + '%'}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@{quote.changePercent > 0 ? @android:color/holo_green_dark : @android:color/holo_red_dark}"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -81,12 +92,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
-                android:layout_marginBottom="8dp"
-                android:textColor="@{quote.changePercent > 0 ? @android:color/holo_green_dark : @android:color/holo_red_dark}"
-                android:text="@{'(' + String.valueOf(quote.getChange) +')'}"
+                android:layout_marginBottom="32dp"
+                android:text="@{ quote.getChange > 0 ? String.valueOf(quote.getChange) : String.valueOf(quote.getChange * -1) }"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txtChangePercent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="@{quote.getChange > 0 ? @string/upPointingTriangle : @string/downPointingTriangle }"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtChange" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

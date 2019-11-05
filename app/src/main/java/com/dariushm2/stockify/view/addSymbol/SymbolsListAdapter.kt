@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.dariushm2.stockify.databinding.SymbolItemBinding
+import com.dariushm2.stockify.model.Quote
 import com.dariushm2.stockify.model.Symbol
 import com.dariushm2.stockify.model.Watch
 import com.dariushm2.stockify.view.MyApp
@@ -52,8 +53,13 @@ class SymbolsListAdapter(
         holder.itemView.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val result = MyApp.DB_STOCK_INSTANCE.getStockDao().insertWatch(watch)
-                println("Stockify: $result")
+                //println("Stockify: $result")
+                if (result > -1) {
+                    val quote = Quote(watch.symbol)
+                    MyApp.DB_STOCK_INSTANCE.getStockDao().insertQuote(quote)
+                }
                 withContext(Dispatchers.Main) {
+
                     it.findNavController().popBackStack()
                 }
             }
