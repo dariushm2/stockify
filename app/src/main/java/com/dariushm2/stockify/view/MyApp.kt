@@ -16,7 +16,7 @@ class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         DB_STOCK_INSTANCE = Room.databaseBuilder(this, DBStock::class.java, DB_STOCK)
-                        //.allowMainThreadQueries()
+                        .allowMainThreadQueries()
                         .build()
         //Log.e("onCreate", "Invoked")
     }

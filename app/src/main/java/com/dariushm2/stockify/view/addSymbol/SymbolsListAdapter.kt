@@ -1,12 +1,21 @@
 package com.dariushm2.stockify.view.addSymbol
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.dariushm2.stockify.databinding.SymbolItemBinding
-
+import com.dariushm2.stockify.model.Quote
 import com.dariushm2.stockify.model.Symbol
+import com.dariushm2.stockify.model.Watch
+import com.dariushm2.stockify.view.MyApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+
 
 /**
  * [RecyclerView.Adapter] that can display a [Symbol] and makes a call to the
@@ -18,17 +27,17 @@ class SymbolsListAdapter(
     : RecyclerView.Adapter<SymbolsListAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
+    private var symbolsCached = symbols
 
     init {
         mOnClickListener = View.OnClickListener { v ->
             val symbol = v.tag as Symbol
-
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-                //.inflate(R.layout.symbol_item, parent, false)
+        //.inflate(R.layout.symbol_item, parent, false)
         val symbolItemBinding: SymbolItemBinding = SymbolItemBinding.inflate(layoutInflater, parent, false)
 
         return ViewHolder(symbolItemBinding)
@@ -36,15 +45,32 @@ class SymbolsListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val symbol:Symbol = symbols[position]
+        val symbol: Symbol = symbols[position]
         holder.bind(symbol)
 
+
+        val watch = Watch(symbols[position].symbol)
+        holder.itemView.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val result = MyApp.DB_STOCK_INSTANCE.getStockDao().insertWatch(watch)
+                //println("Stockify: $result")
+                if (result > -1) {
+                    val quote = Quote(watch.symbol)
+                    MyApp.DB_STOCK_INSTANCE.getStockDao().insertQuote(quote)
+                }
+                withContext(Dispatchers.Main) {
+
+                    it.findNavController().popBackStack()
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int = symbols.size
 
     fun addItems(symbols: List<Symbol>) {
         this.symbols = symbols
+        this.symbolsCached = this.symbols
         notifyDataSetChanged()
     }
 
@@ -60,6 +86,18 @@ class SymbolsListAdapter(
         fun getSymbolsDataBinding(): SymbolItemBinding {
             return symbolsDataBinding
         }
+
+    }
+
+
+    fun filter(text: String) {
+
+
+        symbols = symbolsCached
+        val newList = symbols.filter { symbol -> symbol.symbol.startsWith(text, true) }
+        symbols = newList
+
+        notifyDataSetChanged()
 
     }
 }
