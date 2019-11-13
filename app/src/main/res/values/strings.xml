@@ -25,7 +25,7 @@
     <string name="failure">Something went wrong.</string>
 
 
-    <string name="stockSearchHint">GOOG</string>
+    <string name="stockSearchHint">Search for stocks</string>
 
     <string name="upPointingTriangle">\u25b2</string>
     <string name="downPointingTriangle">\u25bc</string>

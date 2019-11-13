@@ -36,12 +36,12 @@ class WatchListAdapter(private var quotes: List<Quote>) : RecyclerView.Adapter<W
         val dialog = AlertDialog.Builder(context)
                 .setTitle(quotes[position].symbol)
                 .setMessage(R.string.deleteWatchlist)
-                .setPositiveButton(android.R.string.yes, { dialog, id ->
+                .setPositiveButton(android.R.string.yes) { _, _ ->
                     val watch = Watch(quotes[position].symbol)
                     val result = MyApp.DB_STOCK_INSTANCE.getStockDao().deleteWatch(watch)
                     MyApp.DB_STOCK_INSTANCE.getStockDao().deleteQuote(quotes[position])
                     println("Stockify: onPositiveButton Clicked ${watch.symbol} = $result")
-                })
+                }
                 .create()
         dialog.show()
         return true
