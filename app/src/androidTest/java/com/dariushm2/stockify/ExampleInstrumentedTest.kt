@@ -1,7 +1,8 @@
 package com.dariushm2.stockify
 
-import androidx.test.InstrumentationRegistry
-import androidx.test.runner.AndroidJUnit4
+
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,7 +19,7 @@ class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
         // Context of the app under test.
-        val appContext = InstrumentationRegistry.getTargetContext()
+        val appContext = getInstrumentation().context
         assertEquals("com.dariushm2.kotlintest", appContext.packageName)
     }
 }

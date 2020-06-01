@@ -29,7 +29,7 @@ class WatchListViewModel : ViewModel() {
 
         emitSource(getCachedQuotes())
 
-        MyApp.DB_STOCK_INSTANCE.getStockDao().getWatches().observeForever(Observer {
+        MyApp.DB_STOCK_INSTANCE.getStockDao().getWatches().observeForever {
             watchlist = it
             if (!isObserved) {
                 scope.launch {
@@ -37,7 +37,7 @@ class WatchListViewModel : ViewModel() {
                 }
             }
             isObserved = true
-        })
+        }
 
 
 

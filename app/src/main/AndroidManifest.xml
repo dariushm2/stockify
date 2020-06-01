@@ -3,6 +3,7 @@
     package="com.dariushm2.stockify">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
 
     <application
         android:name=".view.MyApp"
@@ -23,10 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.dariushm2.stockify.view.addSymbol.AddSymbolActivity"
-            android:theme="@style/AppTheme.NoActionBar">
 
+        <activity android:name=".GithubActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="reposify"
+                      android:host="githubcallback" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

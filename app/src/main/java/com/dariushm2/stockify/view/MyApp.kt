@@ -7,10 +7,13 @@ import com.dariushm2.stockify.db.DBStock
 
 class MyApp : Application() {
 
+
     val DB_STOCK = "DB_STOCK_INSTANCE"
 
     companion object {
         lateinit var DB_STOCK_INSTANCE: DBStock
+
+        const val TAG = "Stockify"
     }
 
     override fun onCreate() {
